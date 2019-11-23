@@ -30,8 +30,8 @@ struct Ast {
 };
 
 struct Num : Ast {
-  float n;
-  Num(float n) : n(n) {}
+  double n;
+  Num(double n) : n(n) {}
   void tostr(ostream& o) { o<<n; }
   Value* code() {
     return ConstantFP::get(TheContext, APFloat(n));

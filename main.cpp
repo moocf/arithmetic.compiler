@@ -24,12 +24,25 @@ int main(int argc, char **argv) {
   yyparse();
   printf("%s\n", yyroot->str().c_str());
 
-  FunctionType *FT = FunctionType::get(Type::getFloatTy(TheContext), false);
+  FunctionType *FT = FunctionType::get(Type::getDoubleTy(TheContext), false);
   Function *F = Function::Create(FT, Function::ExternalLinkage, "expression", &TheModule);
   BasicBlock *BB = BasicBlock::Create(TheContext, "entry", F);
   Builder.SetInsertPoint(BB);
   Builder.CreateRet(yyroot->code());
   verifyFunction(*F);
+
+  FunctionType *PFT = FunctionType::get(Type::getInt32Ty(TheContext), true);
+  Function *PF = Function::Create(PFT, Function::ExternalLinkage, "printf", &TheModule);
+
+  FunctionType *MFT = FunctionType::get(Type::getVoidTy(TheContext), false);
+  Function *MF = Function::Create(MFT, Function::ExternalLinkage, "main", &TheModule);
+  BasicBlock *MBB = BasicBlock::Create(TheContext, "entry", MF);
+  Builder.SetInsertPoint(MBB);
+  // Value *fmt = ConstantDataArray::getString(TheContext, "%f\n");
+  Value *fmt = Builder.CreateGlobalStringPtr(StringRef("%f\n"));
+  Value *expr = Builder.CreateCall(F, {}, "callexpression");
+  Builder.CreateCall(PF, {fmt, expr}, "callprintf");
+  Builder.CreateRetVoid();
   TheModule.print(errs(), nullptr);
 
   auto TargetTriple = sys::getDefaultTargetTriple();
