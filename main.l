@@ -3,6 +3,7 @@
 #include "main.tab.hpp"
 #include <stdlib.h>
 %}
+%option nounput
 
 %%
 [ \t]   {}
