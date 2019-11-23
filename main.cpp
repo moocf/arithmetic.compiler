@@ -1,11 +1,11 @@
-#include "llvm/IR/LegacyPassManager.h"
-#include "llvm/Support/FileSystem.h"
-#include "llvm/Support/Host.h"
-#include "llvm/Support/raw_ostream.h"
-#include "llvm/Support/TargetRegistry.h"
-#include "llvm/Support/TargetSelect.h"
-#include "llvm/Target/TargetMachine.h"
-#include "llvm/Target/TargetOptions.h"
+#include <llvm/IR/LegacyPassManager.h>
+#include <llvm/Support/FileSystem.h>
+#include <llvm/Support/Host.h>
+#include <llvm/Support/raw_ostream.h>
+#include <llvm/Support/TargetRegistry.h>
+#include <llvm/Support/TargetSelect.h>
+#include <llvm/Target/TargetMachine.h>
+#include <llvm/Target/TargetOptions.h>
 #include "mast.hpp"
 #include <stdio.h>
 #include <stdlib.h>
@@ -16,7 +16,7 @@ extern Ast *yyroot;
 extern int yyparse();
 LLVMContext TheContext;
 IRBuilder<> Builder(TheContext);
-Module TheModule("BASIC", TheContext);
+Module TheModule("ARITHMETIC", TheContext);
 map<string, Value*> NamedValues;
 
 
