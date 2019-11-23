@@ -8,6 +8,7 @@
 #include "llvm/Target/TargetOptions.h"
 #include "mast.hpp"
 #include <stdio.h>
+#include <stdlib.h>
 
 using namespace std;
 using namespace llvm;
@@ -71,7 +72,7 @@ int main(int argc, char **argv) {
   }
   pass.run(TheModule);
   dest.flush();
-  return 0;
+  return system("clang output.o -o test.out");
 }
 
 void yyerror(const char *s) {
